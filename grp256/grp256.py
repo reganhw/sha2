@@ -22,7 +22,7 @@ def update_variables(W,H):
         a = (T1 + T2)&MASK
     return a,b,c,d,e,f,g,h
 
-def get_hash(M, initial_hash, form="hex"):
+def get_hash(M, length, initial_hash, form="hex"):
     '''
     Input: Message string M of any length.
     Output: The sha256 hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
@@ -38,7 +38,8 @@ def get_hash(M, initial_hash, form="hex"):
             H[j] = (H[j]+ working_variables[j])&MASK         # update hash values (section 6.2.2-4.)
     
     if(form=="bin"):
-        return ''.join(format(h, '032b') for h in H)         # convert final hash values into binary string.
-
-    return ''.join(format(h, '08x') for h in H)              # convert final hash values into hex string.
+        return ''.join(format(h, '032b') for h in H)[:length]         # convert final hash values into binary string.
+    
+    hex_length = 64*length//256
+    return ''.join(format(h, '08x') for h in H)[:hex_length]              # convert final hash values into hex string.
 
