@@ -1,5 +1,5 @@
 from grp256.basic_funcs import*
-from constants import MASK
+from grp256.constants import MASK
 
 def str_to_bin(M):
     '''

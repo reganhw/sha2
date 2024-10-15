@@ -1,4 +1,4 @@
-from constants import MASK
+from grp256.constants import MASK
 
 def neg(x):
     '''
