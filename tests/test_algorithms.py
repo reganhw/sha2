@@ -3,21 +3,26 @@ from algorithms import *
 
 special_chrs = " !\"£^ "
 
-def test_sha256():
+def alg_test(alg):
     s = ""
     for i in range(5):
         # Check hex version.
-        hash_hex = sha256(s)
-        verified_hash_hex = hashlib.sha256(s.encode()).hexdigest()
+        hash_hex = alg(s)
+        verified_func = verified_func = getattr(hashlib, alg.__name__)  # hashlib.sha
+        verified_hash_hex = verified_func(s.encode()).hexdigest()
 
         # Check bin version.
-        hash_bin = sha256(s,'bin')
-        verified_hash_bin = format(int(verified_hash_hex,16), '0256b')
+        bin_length = len(hash_hex)*4
+        hash_bin = alg(s,'bin')
+        verified_hash_bin = format(int(verified_hash_hex,16), f'0{bin_length}b')
         assert(hash_bin==verified_hash_bin)
         
-        # Update s.
-        s = s+hash_hex+special_chrs[i]
+        # Update s to be: (current string) + (its hash) + (a special chr).
+        s = s + hash_hex + special_chrs[i]
 
-if __name__=='__main__':
-    s = sha256("")+" "
-    print(sha256('e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b8556'))
+
+def test_sha256():
+    alg_test(sha256)
+
+def test_sha224():
+    alg_test(sha224)
