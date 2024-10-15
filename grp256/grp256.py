@@ -2,8 +2,6 @@ from bitwise_funcs import*
 from grp256.preprocessing import*
 from grp256.constants import *
 
-hashmap = {224:initial_hash_224, 256: initial_hash_256}
-
 def update_variables(W,H):
     '''
     Input - W: Message schedule W of a message. Array of 64 integers.
@@ -12,7 +10,7 @@ def update_variables(W,H):
     '''
     a,b,c,d,e,f,g,h = H[0], H[1], H[2], H[3], H[4], H[5], H[6], H[7]
     for t in range (64):
-        T1 = (h + Sig1(e) + Ch(e,f,g) + K[t] + W[t])&MASK
+        T1 = (h + Sig1(e) + Ch(e,f,g) +K256[t] + W[t])&MASK
         T2 = (Sig0(a) + Maj(a,b,c))&MASK
         h = g
         g = f
