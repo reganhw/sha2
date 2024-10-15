@@ -38,6 +38,5 @@ class Form256:
     @staticmethod
     def get_hash(msg):
         return f"Hash for message {msg}. "
-    
 
-print(Form256("Hello world"))
+        
