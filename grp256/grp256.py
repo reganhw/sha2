@@ -29,7 +29,7 @@ def get_hash(M, length, form="hex"):
     '''
     M_padded = padding(M)                                    # pad M.
     M_blocks = split_512bit(M_padded)                        # split into 512 bit blocks.
-    H = hashmap[length]
+    H = hashmap[length][:]
                                                              # intialise hash.
     for block in M_blocks:                                   # for each message block...
         W = get_message_schedule(block)                      # obtain message schedule.
