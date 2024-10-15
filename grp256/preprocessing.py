@@ -1,4 +1,4 @@
-from bitwise_funcs import*
+from grp256.basic_funcs import*
 from constants import MASK
 
 def str_to_bin(M):
