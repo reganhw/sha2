@@ -1,5 +1,5 @@
 from bitwise_funcs import *
-from grp512.constants512 import MASK
+from grp512.constants import MASK
 # ---------------------------------Page 10, section 4.1.2.---------------------------------
 
 def Sig0(x):
@@ -9,7 +9,7 @@ def Sig1(x):
     return rotr(14,x,MASK)^rotr(18,x,MASK)^rotr(41,x,MASK)
 
 def sig0(x):
-    return rotr(1,x,MASK)^rotr(18,x,MASK)^shr(7,x,MASK)
+    return rotr(1,x,MASK)^rotr(8,x,MASK)^shr(7,x)
 
 def sig1(x):
-    return rotr(19,x,MASK)^rotr(61,x,MASK)^shr(6,x,MASK)
+    return rotr(19,x,MASK)^rotr(61,x,MASK)^shr(6,x)

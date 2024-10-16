@@ -8,7 +8,7 @@ def alg_test(alg):
     for i in range(5):
         # Check hex version.
         hash_hex = alg(s)
-        verified_func = verified_func = getattr(hashlib, alg.__name__)  # hashlib.sha
+        verified_func = getattr(hashlib, alg.__name__)  # hashlib.sha
         verified_hash_hex = verified_func(s.encode()).hexdigest()
 
         # Check bin version.
@@ -26,3 +26,8 @@ def test_sha256():
 
 def test_sha224():
     alg_test(sha224)
+
+def test_sha512():
+    alg_test(sha512)
+
+
