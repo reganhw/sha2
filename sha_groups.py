@@ -77,4 +77,4 @@ def grp512(output_length, initial_hash, M,form='hex'):
     
     h = sha2(config,M,form)                  # get hash
     hlen = len(h)
-    return h[:int(hlen*(output_length/256))] # cut to appropriate length
+    return h[:int(hlen*(output_length/512))] # cut to appropriate length
