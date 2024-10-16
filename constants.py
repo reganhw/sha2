@@ -24,12 +24,3 @@ K512 = [0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f, 0xe9b5dba581
     0xd186b8c721c0c207, 0xeada7dd6cde0eb1e, 0xf57d4f7fee6ed178, 0x06f067aa72176fba, 0x0a637dc5a2c898a6, 
     0x113f9804bef90dae, 0x1b710b35131c471b, 0x28db77f523047d84, 0x32caab7b40c72493, 0x3c9ebe0a15c9bebc, 
         0x431d67c49c100d4c, 0x4cc5d4becb3e42b6, 0x597f299cfc657e2a, 0x5fcb6fab3ad6faec, 0x6c44198c4a475817]
-
-# Page 13, section 5.3.3.
-initial_hash_256 = [0x6a09e667, 0xbb67ae85,0x3c6ef372,0xa54ff53a, 0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]
-initial_hash_224 = [0xc1059ed8, 0x367cd507, 0x3070dd17, 0xf70e5939, 0xffc00b31, 0x68581511, 0x64f98fa7,0xbefa4fa4]
-initial_hash_512 = [0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 
-                    0xa54ff53a5f1d36f1, 0x510e527fade682d1, 0x9b05688c2b3e6c1f, 
-                    0x1f83d9abfb41bd6b, 0x5be0cd19137e2179]
-
-hashmap = {224:initial_hash_224, 256: initial_hash_256, 512:initial_hash_512}

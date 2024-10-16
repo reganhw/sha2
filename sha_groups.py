@@ -75,6 +75,6 @@ def grp512(output_length, initial_hash, M,form='hex'):
             'get_k': get_k
             }
     
-    h = get_hash(config,M,form)          # get hash
+    h = get_hash(config,M,form)              # get hash
     hlen = len(h)
     return h[:int(hlen*(output_length/256))] # cut to appropriate length

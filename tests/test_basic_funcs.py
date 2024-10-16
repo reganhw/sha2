@@ -1,6 +1,5 @@
 import random
-
-from bitwise_funcs import *
+from basic_funcs import *
 
 mask_32 = (1 << 32) - 1
 mask_64 = ( 1<< 64) - 1
