@@ -9,7 +9,17 @@ def str_to_bin(M):
     Mbytes = M.encode()
     return ''.join(format(x,'08b') for x in Mbytes)
 
-def get_hash(bl, mbl, t_lim, s0,s1,S0,S1, get_k, M, form="hex",):
+def get_hash(config, M, form="hex",):
+    
+    bl = config['bl']
+    mbl = config['mbl']
+    t_lim = config['t_lim']
+    s0 = config['s0']
+    s1 = config['s1']
+    S0 = config['S0']
+    S1 = config['S1']
+    get_k = config['get_k']
+
     '''
     Input: Message string M of any length.
     Output: The sha256 hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
@@ -100,10 +110,6 @@ def get_hash(bl, mbl, t_lim, s0,s1,S0,S1, get_k, M, form="hex",):
     return ''.join(format(h, '016x') for h in H) # convert final hash values into hex string.
 
 def sha512(M):
-    s0 = sigma512.sig0
-    s1 = sigma512.sig1
-    S0 = sigma512.Sig0
-    S1 = sigma512.Sig1
 
     def get_k_512(l):
         '''
@@ -112,7 +118,18 @@ def sha512(M):
         n = (l+1)&1023           # & 1023 is equivalent to %1024
         return (896-n)&1023
     
-    return get_hash(bl = 64, mbl = 1024, t_lim = 80, s0 = s0, s1 = s1, S0=S0, S1 = S1, get_k = get_k_512, M=M)
+    config = {
+            'bl':64, 
+            'mbl':1024, 
+            't_lim':80, 
+            's0':sigma512.sig0, 
+            's1':sigma512.sig1, 
+            'S0':sigma512.Sig0, 
+            'S1':sigma512.Sig1, 
+            'get_k': get_k_512
+            }
+    
+    return get_hash(config, M)
 
 if __name__=='__main__':
     import hashlib
