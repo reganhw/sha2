@@ -10,6 +10,7 @@ def alg_test(alg):
         hash_hex = alg(s)
         verified_func = getattr(hashlib, alg.__name__)  # hashlib.sha
         verified_hash_hex = verified_func(s.encode()).hexdigest()
+        assert(hash_hex==verified_hash_hex)
 
         # Check bin version.
         bin_length = len(hash_hex)*4
@@ -24,10 +25,10 @@ def alg_test(alg):
 def test_sha256():
     alg_test(sha256)
 
-'''
+
 def test_sha224():
     alg_test(sha224)
-'''
+
 
 def test_sha512():
     alg_test(sha512)
