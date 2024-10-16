@@ -1,4 +1,4 @@
-from bitwise_funcs import *
+from basic_funcs import *
 from grp512.constants import MASK
 # ---------------------------------Page 10, section 4.1.2.---------------------------------
 

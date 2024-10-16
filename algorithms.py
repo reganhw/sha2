@@ -1,4 +1,5 @@
-import grp512
+import grp512.constants as constants512
+import grp512.sigma512 as sigma512
 from get_hash import get_hash
 '''
 def sha224(M, form = "hex"):
@@ -23,12 +24,12 @@ def sha512(M):
             'bl':64, 
             'mbl':1024, 
             't_lim':80,
-            'K_constants': grp512.constants.K512,
-            'initial_hash': grp512.constants.initial_hash_512, 
-            's0':grp512.sigma512.sig0, 
-            's1':grp512.sigma512.sig1, 
-            'S0':grp512.sigma512.Sig0, 
-            'S1':grp512.sigma512.Sig1, 
+            'K_constants': constants512.K512,
+            'initial_hash': constants512.initial_hash_512, 
+            's0':sigma512.sig0, 
+            's1':sigma512.sig1, 
+            'S0':sigma512.Sig0, 
+            'S1':sigma512.Sig1, 
             'get_k': get_k_512
             }
     

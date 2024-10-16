@@ -1,13 +1,4 @@
-import grp512.sigma512 as sigma512
-from bitwise_funcs import*
-from grp512.constants import *
-
-def str_to_bin(M):
-    '''
-    Takes in a string M and converts it to a binary string.
-    '''
-    Mbytes = M.encode()
-    return ''.join(format(x,'08b') for x in Mbytes)
+from basic_funcs import *
 
 def get_hash(config, M, form="hex",):
     '''
@@ -18,6 +9,7 @@ def get_hash(config, M, form="hex",):
     bl = config['bl']
     mbl = config['mbl']
     t_lim = config['t_lim']
+    MASK = (1<<bl)-1
 
     K = config['K_constants']
     H = config['initial_hash'].copy() 

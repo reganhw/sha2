@@ -53,3 +53,10 @@ def Maj(x,y,z):
     else -> output[i] =0
     '''
     return (x & y) ^(x & z) ^(y &z)
+
+def str_to_bin(M):
+    '''
+    Takes in a string M and converts it to a binary string.
+    '''
+    Mbytes = M.encode()
+    return ''.join(format(x,'08b') for x in Mbytes)
