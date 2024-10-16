@@ -23,6 +23,7 @@ def sha256(M):
         return rotr(17,x)^rotr(19,x)^shr(10,x)
   
     config = {
+            'MASK':(1<<32)-1,
             'bl':32, 
             'mbl':512, 
             't_lim':64,

@@ -24,6 +24,7 @@ def sha512(M):
         return rotr(19,x,MASK)^rotr(61,x,MASK)^shr(6,x)
   
     config = {
+            'MASK':MASK,
             'bl':64, 
             'mbl':1024, 
             't_lim':80,

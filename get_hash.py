@@ -5,11 +5,10 @@ def get_hash(config, M, form="hex",):
     Input: Message string M of any length.
     Output: The hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
     '''
-
+    MASK = config['MASK']
     bl = config['bl']
     mbl = config['mbl']
     t_lim = config['t_lim']
-    MASK = (1<<bl)-1
 
     K = config['K_constants']
     H = config['initial_hash'].copy() 
