@@ -15,6 +15,7 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
     Output: The sha256 hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
     '''
     mbl = 1024    # message block length
+    bl = 64       # word block length
     # --------------------------------------- Preprocessing ----------------------------------------
 
     def padding(M):
@@ -28,7 +29,7 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
         l = len(Mb)                        # l = message length
         k = get_k(l)                       # calculate k
         zeros = "0"*k                      # k zeros
-        lb = format(l, '0128b')            # l in 128bits
+        lb = format(l, f'0{bl*2}b')        # l in 64 or 128bits
         return Mb + "1"+zeros+lb
 
     # ---------------------------------Page 14, section 5.2.1.---------------------------------
@@ -54,10 +55,10 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
         Output: Integer array, M split into 16 blocks of 64 bits, each block then converted to an integer.
         '''
         if(len(s)!=mbl):
-            raise ValueError(f'M must have length {mbl}.')
+            raise ValueError(f'Input string must have length {mbl}.')
         word_blocks = []
         for i in range (16):
-            block = s[64*i:64*(i+1)]
+            block = s[bl*i:bl*(i+1)]
             word_blocks.append(int(block,2))
         return word_blocks    
 
@@ -98,7 +99,7 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
             H[j] = (H[j]+ working_variables[j])&MASK         # update hash values (section 6.2.2-4.)
     
     if(form=="bin"):
-        return ''.join(format(h, '064b') for h in H) # convert final hash values into binary string.
+        return ''.join(format(h, f'0{bl}b') for h in H) # convert final hash values into binary string.
     
     return ''.join(format(h, '016x') for h in H) # convert final hash values into hex string.
 
@@ -107,13 +108,15 @@ def sha512(M):
     s1 = sigma512.sig1
     S0 = sigma512.Sig0
     S1 = sigma512.Sig1
-    def get_k(l):
+
+    def get_k_512(l):
         '''
         Takes in integer l and returns k, the smallest non-negative integer satisfying l+1+k = 896 mod 1024.
         '''
         n = (l+1)&1023           # & 1023 is equivalent to %1024
         return (896-n)&1023
-    return get_hash(s0 = s0, s1 = s1, S0=S0, S1 = S1, get_k = get_k, M=M)
+    
+    return get_hash(s0 = s0, s1 = s1, S0=S0, S1 = S1, get_k = get_k_512, M=M)
 
 if __name__=='__main__':
     import hashlib
