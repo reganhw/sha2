@@ -16,6 +16,7 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
     '''
     mbl = 1024    # message block length
     bl = 64       # word block length
+    t_lim = 80
     # --------------------------------------- Preprocessing ----------------------------------------
 
     def padding(M):
@@ -34,25 +35,22 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
 
     # ---------------------------------Page 14, section 5.2.1.---------------------------------
 
-    def str_to_blocks(M):
+    def str_to_blocks(s):
         '''
         Input: String of length 1024n for some n.
         Output: String array, M split into blocks of length bl.
         '''
-        if(len(M)&(mbl-1)!=0):
+        if(len(s)&(mbl-1)!=0):
            raise ValueError("Input string must have length bl*n for some n.")
 
-        total_blocks = int(len(M)/mbl)    # number of total blocks
-        message_blocks = []               # array to store values
-        for i in range (total_blocks):
-            block = M[mbl*i:mbl*(i+1)]
-            message_blocks.append(block)
+        block_num = int(len(s)/mbl)    # number of total blocks
+        message_blocks = [s[mbl*i:mbl*(i+1)] for i in range(block_num)]               
         return message_blocks
 
     def get_word_blocks(s):
         '''
-        Input: String M of length 1024.
-        Output: Integer array, M split into 16 blocks of 64 bits, each block then converted to an integer.
+        Input: String M of length 512/1024.
+        Output: Integer array, M split into 16 blocks of 32/64 bits, each block then converted to an integer.
         '''
         if(len(s)!=mbl):
             raise ValueError(f'Input string must have length {mbl}.')
