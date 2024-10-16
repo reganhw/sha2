@@ -1,16 +1,7 @@
-import grp512.constants as constants512
+import constants
 import grp512.sigma512 as sigma512
 from get_hash import get_hash
-'''
-def sha224(M, form = "hex"):
-    return grp256.get_hash(M, 224, form)
 
-def sha256(M, form="hex"):
-    return grp256.get_hash(M, 256, form)
-
-def sha512(M, form="hex"):
-    return grp512.get_hash(M,form)
-'''
 def get_k_512(l):
     '''
     Takes in integer l and returns k, the smallest non-negative integer satisfying l+1+k = 896 mod 1024.
@@ -24,8 +15,8 @@ def sha512(M):
             'bl':64, 
             'mbl':1024, 
             't_lim':80,
-            'K_constants': constants512.K512,
-            'initial_hash': constants512.initial_hash_512, 
+            'K_constants': constants.K512,
+            'initial_hash': constants.initial_hash_512, 
             's0':sigma512.sig0, 
             's1':sigma512.sig1, 
             'S0':sigma512.Sig0, 

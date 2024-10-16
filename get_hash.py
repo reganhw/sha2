@@ -98,9 +98,11 @@ def get_hash(config, M, form="hex",):
             working_variables = my_update_variables(W)           # obtain working variables.
             for j in range (8):                                  
                 H[j] = (H[j]+ working_variables[j])&MASK         # update hash values (section 6.2.2-4.)
+        
         if(form=="bin"):
             return ''.join(format(h, f'0{bl}b') for h in H) # convert final hash values into binary string.
     
-        return ''.join(format(h, '016x') for h in H) # convert final hash values into hex string.
+        return ''.join(format(h, f'0{bl//4}x') for h in H) # convert final hash values into hex string.
+        
     
     return main()

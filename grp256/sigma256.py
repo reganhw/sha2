@@ -1,4 +1,4 @@
-from bitwise_funcs import *
+from basic_funcs import *
 # ---------------------------------Page 10, section 4.1.2.---------------------------------
 
 def Sig0(x):
