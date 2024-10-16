@@ -9,14 +9,11 @@ def str_to_bin(M):
     Mbytes = M.encode()
     return ''.join(format(x,'08b') for x in Mbytes)
 
-def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
+def get_hash(bl, mbl, t_lim, s0,s1,S0,S1, get_k, M, form="hex",):
     '''
     Input: Message string M of any length.
     Output: The sha256 hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
     '''
-    mbl = 1024    # message block length
-    bl = 64       # word block length
-    t_lim = 80
     # --------------------------------------- Preprocessing ----------------------------------------
 
     def padding(M):
@@ -115,7 +112,7 @@ def sha512(M):
         n = (l+1)&1023           # & 1023 is equivalent to %1024
         return (896-n)&1023
     
-    return get_hash(s0 = s0, s1 = s1, S0=S0, S1 = S1, get_k = get_k_512, M=M)
+    return get_hash(bl = 64, mbl = 1024, t_lim = 80, s0 = s0, s1 = s1, S0=S0, S1 = S1, get_k = get_k_512, M=M)
 
 if __name__=='__main__':
     import hashlib
