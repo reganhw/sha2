@@ -48,18 +48,18 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
             message_blocks.append(block)
         return message_blocks
 
-    def split_64bit(M):
+    def get_word_blocks(s):
         '''
         Input: String M of length 1024.
         Output: Integer array, M split into 16 blocks of 64 bits, each block then converted to an integer.
         '''
-        if(len(M)!=1024):
-            raise ValueError('M must have length 1024.')
-        output = []
+        if(len(s)!=mbl):
+            raise ValueError(f'M must have length {mbl}.')
+        word_blocks = []
         for i in range (16):
-            block = M[64*i:64*(i+1)]
-            output.append(int(block,2))
-        return output    
+            block = s[64*i:64*(i+1)]
+            word_blocks.append(int(block,2))
+        return word_blocks    
 
     # --------------------------------------- Hashing ----------------------------------------
     M_padded = padding(M)                                  # pad M.
@@ -70,7 +70,7 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
         Input: String M of length 1024.
         Output: Array of 80 integers, message schedule as described in the NIST document
         '''
-        W = split_64bit(M).copy()
+        W = get_word_blocks(M).copy()
         for t in range(16,80):
             Wt = (s1(W[t-2]) + W[t-7] + s0(W[t-15])+W[t-16])&MASK
             W.append(Wt)
