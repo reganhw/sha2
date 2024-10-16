@@ -2,7 +2,10 @@ from constants import *
 from basic_funcs import *
 from sha2 import sha2
 
-def grp256(output_length, initial_hash, M,form='hex'):
+def grp256(initial_hash, M, output_length = 256, form='hex'):
+    '''
+    General form for SHA256 and SHA224.
+    '''
     def Sig0(x):
         return rotr(2,x)^ rotr(13,x)^rotr(22,x)
 
@@ -36,12 +39,15 @@ def grp256(output_length, initial_hash, M,form='hex'):
             'get_k': get_k
             }
     
-    h = sha2(config,M,form)            # get hash
-    hlen = len(h)
-    return h[:int(hlen*(output_length/256))]   # cut to appropriate length
+    return sha2(config,M,output_length,form)   # cut to appropriate length
 
-def grp512(output_length, initial_hash, M,form='hex'):
+def grp512(initial_hash, M, output_length = 512, form='hex'):
+    '''
+    General form for SHA512,SHA384, SHA512/224, and SHA512/256.
+    '''
     MASK = (1<<64)-1
+
+    # Sigma functions. 
     def Sig0(x):
         return rotr(28,x,MASK)^ rotr(34,x,MASK)^rotr(39,x,MASK)
 
@@ -75,6 +81,4 @@ def grp512(output_length, initial_hash, M,form='hex'):
             'get_k': get_k
             }
     
-    h = sha2(config,M,form)                  # get hash
-    hlen = len(h)
-    return h[:int(hlen*(output_length/512))] # cut to appropriate length
+    return sha2(config,M,output_length,form)

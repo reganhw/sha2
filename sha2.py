@@ -1,8 +1,13 @@
 from basic_funcs import *
 
-def sha2(config, M, form="hex",):
+def sha2(config, M, output_length, form="hex"):
     '''
-    Input: Message string M of any length.
+    Input: 
+        - config: dict containing MASK, bit length, message block length, t_lim, sigma funcs, get_k.
+        - M: message to be hashed
+        - output_length: length of the output in binary
+        - form: hex or bin
+
     Output: The hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
     '''
     MASK = config['MASK']
@@ -101,10 +106,14 @@ def sha2(config, M, form="hex",):
             for j in range (8):                                  
                 H[j] = (H[j]+ working_variables[j])&MASK         # update hash values (section 6.2.2-4.)
         
+       
         if(form=="bin"):
-            return ''.join(format(h, f'0{bl}b') for h in H) # convert final hash values into binary string.
-    
-        return ''.join(format(h, f'0{bl//4}x') for h in H) # convert final hash values into hex string.
+             # Convert final hash values into binary string, slice appropriately.
+            return ''.join(format(h, f'0{bl}b') for h in H)[:output_length] 
+        
+        # Convert final hash values into hex string, slice appropriately. 
+        output_length_hash = output_length//4
+        return ''.join(format(h, f'0{bl//4}x') for h in H)[:output_length_hash]
         
     
     return main()
