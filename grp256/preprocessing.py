@@ -1,4 +1,4 @@
-from grp256.basic_funcs import*
+from grp256.sigma256 import*
 from grp256.constants import MASK
 
 def str_to_bin(M):
