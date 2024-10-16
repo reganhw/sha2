@@ -10,10 +10,12 @@ def str_to_bin(M):
     return ''.join(format(x,'08b') for x in Mbytes)
 
 def get_hash(config, M, form="hex",):
-    
+
     bl = config['bl']
     mbl = config['mbl']
     t_lim = config['t_lim']
+    K = config['K']
+    initial_hash = config['initial_hash']
     s0 = config['s0']
     s1 = config['s1']
     S0 = config['S0']
@@ -39,8 +41,6 @@ def get_hash(config, M, form="hex",):
         zeros = "0"*k                      # k zeros
         lb = format(l, f'0{bl*2}b')        # l in 64 or 128bits
         return Mb + "1"+zeros+lb
-
-    # ---------------------------------Page 14, section 5.2.1.---------------------------------
 
     def str_to_blocks(s):
         '''
@@ -70,7 +70,7 @@ def get_hash(config, M, form="hex",):
     # --------------------------------------- Hashing ----------------------------------------
     M_padded = padding(M)                                  # pad M.
     M_blocks = str_to_blocks(M_padded)                       # split into 1024 bit blocks.
-    H = initial_hash_512.copy()
+    H = initial_hash.copy()
 
     def message_schedule(s):
         '''
@@ -86,7 +86,7 @@ def get_hash(config, M, form="hex",):
     def my_update_variables(W):
         a,b,c,d,e,f,g,h = H[0], H[1], H[2], H[3], H[4], H[5], H[6], H[7]
         for t in range (t_lim):
-            T1 = (h + S1(e) + Ch(e,f,g, MASK) +K512[t] + W[t])&MASK
+            T1 = (h + S1(e) + Ch(e,f,g, MASK) +K[t] + W[t])&MASK
             T2 = (S0(a) + Maj(a,b,c))&MASK
             h = g
             g = f
@@ -121,7 +121,9 @@ def sha512(M):
     config = {
             'bl':64, 
             'mbl':1024, 
-            't_lim':80, 
+            't_lim':80,
+            'K': K512,
+            'initial_hash': initial_hash_512, 
             's0':sigma512.sig0, 
             's1':sigma512.sig1, 
             'S0':sigma512.Sig0, 
