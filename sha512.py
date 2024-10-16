@@ -2,12 +2,7 @@ import constants
 from basic_funcs import *
 from get_hash import get_hash
 
-def get_k_512(l):
-    '''
-    Takes in integer l and returns k, the smallest non-negative integer satisfying l+1+k = 896 mod 1024.
-    '''
-    n = (l+1)&1023           # & 1023 is equivalent to %1024
-    return (896-n)&1023
+
 
 def sha512(M):
     MASK = (1<<64)-1
@@ -22,6 +17,13 @@ def sha512(M):
 
     def sig1(x):
         return rotr(19,x,MASK)^rotr(61,x,MASK)^shr(6,x)
+
+    def get_k(l):
+        '''
+        Takes in integer l and returns k, the smallest non-negative integer satisfying l+1+k = 896 mod 1024.
+        '''
+        n = (l+1)&1023           # & 1023 is equivalent to %1024
+        return (896-n)&1023
   
     config = {
             'MASK':MASK,
@@ -34,7 +36,7 @@ def sha512(M):
             's1':sig1, 
             'S0':Sig0, 
             'S1':Sig1, 
-            'get_k': get_k_512
+            'get_k': get_k
             }
     
     return get_hash(config, M)

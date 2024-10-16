@@ -2,12 +2,6 @@ import constants
 from basic_funcs import *
 from get_hash import get_hash
 
-def get_k_256(l):
-    '''
-    Takes in integer l and returns k, the smallest non-negative integer satisfying l+1+k = 448 mod 512.
-    '''
-    n = (l+1)&511           # &511 is equivalent to %512
-    return (448-n)&511
 
 def sha256(M):
     def Sig0(x):
@@ -21,6 +15,13 @@ def sha256(M):
 
     def sig1(x):
         return rotr(17,x)^rotr(19,x)^shr(10,x)
+    
+    def get_k(l):
+        '''
+        Takes in integer l and returns k, the smallest non-negative integer satisfying l+1+k = 448 mod 512.
+        '''
+        n = (l+1)&511           # &511 is equivalent to %512
+        return (448-n)&511
   
     config = {
             'MASK':(1<<32)-1,
@@ -33,7 +34,7 @@ def sha256(M):
             's1':sig1, 
             'S0':Sig0, 
             'S1':Sig1, 
-            'get_k': get_k_256
+            'get_k': get_k
             }
     
     return get_hash(config, M)
