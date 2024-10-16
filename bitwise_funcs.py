@@ -1,4 +1,6 @@
 mask_32 = (1 << 32) - 1
+mask_to_bits = {mask_32 : 32, (1<<64)-1 :64}
+
 def neg(x, mask = mask_32):
     '''
     Takes in an integer x, and performs bitwise negation, while
@@ -18,14 +20,16 @@ def rotl(n,x, mask = mask_32):
     '''
     Left-rotates integer x by n.
     '''
-    result = (x<<n) |(x>>(32-n))     # actual output
+    lb = mask_to_bits[mask]
+    result = (x<<n) |(x>>(lb-n))     # actual output
     return result & mask             # keep under 32 bits
 
 def rotr(n,x, mask = mask_32):
     '''
     Right-rotates integer x by n.
     '''
-    result = (x>>n)|(x<<(32-n))      # actual output
+    lb = mask_to_bits[mask]
+    result = (x>>n)|(x<<(lb-n))      # actual output
     return result & mask             # keep under 32 bits
 
 
