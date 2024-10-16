@@ -14,7 +14,7 @@ def rot_test(bit_length, mask):
     for i in range (10):
         x = random.randint(0,mask)                          # For a random integer x,
         n = random.randint(0,bit_length-1)                  # and random n,
-        assert(rotl(n,x,mask)==rotr(bit_length-n,x,mask))   # rotl(n,x) = rotr((bitlength-n,x)).
+        assert(rotl(n,x,mask)==rotr(bit_length-n,x,mask))   # rotl(n,x) = rotr((bit_length-n,x)).
 
 def Ch_test(bit_length,mask):
     for i in range (10):

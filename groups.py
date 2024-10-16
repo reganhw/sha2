@@ -49,7 +49,7 @@ def grp512(initial_hash, M, output_length = 512, form='hex'):
     '''
     General form for SHA512,SHA384, SHA512/224, and SHA512/256.
     '''
-    MASK = (1<<64)-1
+    MASK = (1<<64)-1    # 64 1s in binary
 
     # Section 4.1.3, page 11.
     def Sig0(x):
