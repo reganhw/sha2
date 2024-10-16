@@ -1,6 +1,6 @@
 from basic_funcs import *
 
-def get_hash(config, M, form="hex",):
+def sha2(config, M, form="hex",):
     '''
     Input: Message string M of any length.
     Output: The hash for M. If form=="bin" then the output is binary. Otherwise it's hex.

@@ -1,6 +1,6 @@
 from constants import *
 from basic_funcs import *
-from get_hash import get_hash
+from sha2 import sha2
 
 def grp256(output_length, initial_hash, M,form='hex'):
     def Sig0(x):
@@ -36,7 +36,7 @@ def grp256(output_length, initial_hash, M,form='hex'):
             'get_k': get_k
             }
     
-    h = get_hash(config,M,form)            # get hash
+    h = sha2(config,M,form)            # get hash
     hlen = len(h)
     return h[:int(hlen*(output_length/256))]   # cut to appropriate length
 
@@ -75,6 +75,6 @@ def grp512(output_length, initial_hash, M,form='hex'):
             'get_k': get_k
             }
     
-    h = get_hash(config,M,form)              # get hash
+    h = sha2(config,M,form)                  # get hash
     hlen = len(h)
     return h[:int(hlen*(output_length/256))] # cut to appropriate length
