@@ -14,6 +14,7 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
     Input: Message string M of any length.
     Output: The sha256 hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
     '''
+    mbl = 1024    # message block length
     # --------------------------------------- Preprocessing ----------------------------------------
 
     def padding(M):
@@ -32,18 +33,18 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
 
     # ---------------------------------Page 14, section 5.2.1.---------------------------------
 
-    def str_to_blocks(M,bl):
+    def str_to_blocks(M):
         '''
         Input: String of length 1024n for some n.
         Output: String array, M split into blocks of length bl.
         '''
-        if(len(M)&(bl-1)!=0):
+        if(len(M)&(mbl-1)!=0):
            raise ValueError("Input string must have length bl*n for some n.")
 
-        total_blocks = int(len(M)/bl)    # number of total blocks
+        total_blocks = int(len(M)/mbl)    # number of total blocks
         message_blocks = []               # array to store values
         for i in range (total_blocks):
-            block = M[bl*i:bl*(i+1)]
+            block = M[mbl*i:mbl*(i+1)]
             message_blocks.append(block)
         return message_blocks
 
@@ -62,7 +63,7 @@ def get_hash(s0,s1,S0,S1, get_k, M, form="hex",):
 
     # --------------------------------------- Hashing ----------------------------------------
     M_padded = padding(M)                                  # pad M.
-    M_blocks = str_to_blocks(M_padded,1024)                       # split into 1024 bit blocks.
+    M_blocks = str_to_blocks(M_padded)                       # split into 1024 bit blocks.
     H = initial_hash_512.copy()
     def message_schedule(M):
         '''
