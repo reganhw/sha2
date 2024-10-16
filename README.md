@@ -8,6 +8,8 @@ This is a Python programme that performs SHA2 hashing. It was built following th
   - **mbl:** message block length
   - **t_lim:** upper limit for _t_ for the main hashing part
   - **MASK:** 2**bl -1
+  - **K_constants:** random-looking constants defined in the NIST document
+  - **initial_hash:** initial values for the hashing algorithm to take in
   - **sigma functions:** sigma functions as defined in the NIST document
   - **get_k:** a function that calculates the number of zeroes to append during preprocessing 
 
