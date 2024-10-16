@@ -1,8 +1,8 @@
-import constants
+from constants import *
 from basic_funcs import *
 from get_hash import get_hash
 
-def grp256(initial_hash, M):
+def grp256(mode, M):
     def Sig0(x):
         return rotr(2,x)^ rotr(13,x)^rotr(22,x)
 
@@ -27,8 +27,8 @@ def grp256(initial_hash, M):
             'bl':32, 
             'mbl':512, 
             't_lim':64,
-            'K_constants': constants.K256,
-            'initial_hash': initial_hash, 
+            'K_constants': K256,
+            'initial_hash': hashmap[mode], 
             's0':sig0, 
             's1':sig1, 
             'S0':Sig0, 
@@ -38,7 +38,7 @@ def grp256(initial_hash, M):
     
     return get_hash(config, M)
 
-def grp512(initial_hash, M):
+def grp512(mode, M):
     MASK = (1<<64)-1
     def Sig0(x):
         return rotr(28,x,MASK)^ rotr(34,x,MASK)^rotr(39,x,MASK)
@@ -64,8 +64,8 @@ def grp512(initial_hash, M):
             'bl':64, 
             'mbl':1024, 
             't_lim':80,
-            'K_constants': constants.K512,
-            'initial_hash': constants.initial_hash_512, 
+            'K_constants': K512,
+            'initial_hash': hashmap[512], 
             's0':sig0, 
             's1':sig1, 
             'S0':Sig0, 
@@ -82,7 +82,7 @@ if __name__=='__main__':
     s = ""
     for i in range(5):
         # Check hex version.
-        hash_hex = grp512(constants.initial_hash_512,s)
+        hash_hex = grp512(512,s)
         verified_func = getattr(hashlib, "sha512")  # hashlib.sha
         verified_hash_hex = verified_func(s.encode()).hexdigest()
 
@@ -96,4 +96,4 @@ if __name__=='__main__':
         # Update s to be: (current string) + (its hash) + (a special chr).
         s = s + hash_hex
 
-    print(grp512(constants.initial_hash_512,"helloworld"))
+    print(grp512(512,"helloworld"))
