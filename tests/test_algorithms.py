@@ -1,5 +1,5 @@
 import hashlib
-from algorithms import *
+from main import *
 
 special_chrs = " !\"£^ "
 

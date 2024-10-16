@@ -9,7 +9,7 @@ def sha224(M,form='hex'):
 def sha256(M,form='hex'):
     initial_hash = [0x6a09e667, 0xbb67ae85,0x3c6ef372,0xa54ff53a, 
                     0x510e527f,0x9b05688c,0x1f83d9ab,0x5be0cd19]
-    return grp256(initial_hash, M,form)
+    return grp256(initial_hash, M,form=form)
 
 # 512 Group
 def sha384(M,form='hex'):
@@ -21,7 +21,7 @@ def sha512(M,form='hex'):
     initial_hash = [0x6a09e667f3bcc908, 0xbb67ae8584caa73b, 0x3c6ef372fe94f82b, 
                     0xa54ff53a5f1d36f1, 0x510e527fade682d1, 0x9b05688c2b3e6c1f, 
                     0x1f83d9abfb41bd6b, 0x5be0cd19137e2179]
-    return grp512(initial_hash, M,form)
+    return grp512(initial_hash, M,form=form)
 
 def sha_512_224(M,form='hex'):
     initial_hash = [0x8C3D37C819544DA2,0x73E1996689DCD4D6,0x1DFAB7AE32FF9C82,0x679DD514582F9FCF, 
@@ -35,5 +35,11 @@ def sha_512_256(M,form='hex'):
    return grp512(initial_hash,M, output_length=256, form=form)
 
 if __name__=='__main__':
-    for alg in (sha384, sha_512_224, sha_512_256):
-        print(alg("hello world"))
+    message = input("\n  Input: ")
+    print("")
+    print("--SHA224: ", sha224(message))
+    print("--SHA256: ", sha256(message))
+    print("--SHA384: ", sha384(message))
+    print("--SHA512: ", sha512(message))
+    print("--SHA512/224: ", sha_512_224(message))
+    print("--SHA512/256: ", sha_512_256(message))
