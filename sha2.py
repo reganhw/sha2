@@ -33,6 +33,7 @@ def sha2(config, M, output_length, form="hex"):
         - One "1"
         - k zeros, defined by get_k
         - l encoded in binary
+        Reference: NIST document, Section 5.1, page 13.
         '''
         Mb= str_to_bin(M)
         l = len(Mb)                        # l = message length
@@ -45,6 +46,7 @@ def sha2(config, M, output_length, form="hex"):
         '''
         Input: String of length (message block length)n for some n.
         Output: String array, s split into blocks of length bl.
+        Reference: Section 5.2, page 14.
         '''
         if(len(s)&(mbl-1)!=0):
            raise ValueError("Input string must have length mbl*n for some n.")
@@ -74,7 +76,8 @@ def sha2(config, M, output_length, form="hex"):
     def message_schedule(s):
         '''
         Input: String s which is a message block.
-        Output: List of integers, which is the message schedule as described in the NIST document.
+        Output: List of integers, which is the message schedule as in the NIST document.
+        References: Section 6.2.2, page 22 and section 6.4.2, page 24.
         '''
         W = get_word_blocks(s).copy()
         for t in range(16,t_lim):
@@ -82,7 +85,12 @@ def sha2(config, M, output_length, form="hex"):
             W.append(Wt)
         return W
     
-    def my_update_variables(W):
+    def update_variables(W):
+        '''
+        Input: List of integers W.
+        Output: Updated variable list as in NIST document.
+        References: Section 6.2.2, page 23 and section 6.4.2, page 25.
+        '''
         a,b,c,d,e,f,g,h = H[0], H[1], H[2], H[3], H[4], H[5], H[6], H[7]
         for t in range (t_lim):
             T1 = (h + S1(e) + Ch(e,f,g, MASK) +K[t] + W[t])&MASK
@@ -98,11 +106,15 @@ def sha2(config, M, output_length, form="hex"):
         return a,b,c,d,e,f,g,h
     
     def main():
+        '''
+        Hashes M.
+        References: Section 6.2.2, pages 22-23 and section 6.4.2, pages 24-26.
+        '''
         M_padded = padding(M)                                    # pad M.
         M_blocks = str_to_blocks(M_padded)                       # split into mbl-bit blocks.         
         for block in M_blocks:                                   # for each message block...
             W = message_schedule(block)                          # obtain message schedule.
-            working_variables = my_update_variables(W)           # obtain working variables.
+            working_variables = update_variables(W)              # obtain working variables.
             for j in range (8):                                  
                 H[j] = (H[j]+ working_variables[j])&MASK         # update hash values (section 6.2.2-4.)
         

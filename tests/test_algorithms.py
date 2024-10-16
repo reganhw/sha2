@@ -4,6 +4,9 @@ from main import *
 special_chrs = " !\"£^ "
 
 def alg_test(alg):
+    '''
+    Checks if the output of algorithm 'alg' matches that of hashlib.shaxxx.
+    '''
     s = ""
     for i in range(5):
         # Check hex version.
