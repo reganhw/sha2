@@ -1,7 +1,6 @@
-mask_32 = (1 << 32) - 1
-mask_to_bits = {mask_32 : 32, (1<<64)-1 :64}
+mask_to_bit_len = {(1<<n)-1 :n for n in (32,64)}
 
-def neg(x, mask = mask_32):
+def neg(x, mask):
     '''
     Takes in an integer x, and performs bitwise negation, while
     regarding x as 32/64 bits.
@@ -16,19 +15,19 @@ def shr(n,x):
     '''
     return x>>n
 
-def rotl(n,x, mask = mask_32):
+def rotl(n,x, mask):
     '''
     Left-rotates integer x by n.
     '''
-    lb = mask_to_bits[mask]
+    lb = mask_to_bit_len[mask]
     result = (x<<n) |(x>>(lb-n))     # actual output
     return result & mask             # keep under lb bits
 
-def rotr(n,x, mask = mask_32):
+def rotr(n,x, mask):
     '''
     Right-rotates integer x by n.
     '''
-    lb = mask_to_bits[mask]
+    lb = mask_to_bit_len[mask]
     result = (x>>n)|(x<<(lb-n))      # actual output
     return result & mask             # keep under lb bits
 
@@ -36,7 +35,7 @@ def rotr(n,x, mask = mask_32):
 
 # ---------------------------------Section 4.1.2, page 10---------------------------------
 
-def Ch(x,y,z, mask = mask_32):
+def Ch(x,y,z, mask):
     '''
     Input: Integers x,y,z such that 0<=x,y,z <=2**32-1
     Output: For 0<=i<=31,

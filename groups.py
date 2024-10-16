@@ -6,18 +6,20 @@ def grp256(initial_hash, M, output_length = 256, form='hex'):
     '''
     General form for SHA256 and SHA224.
     '''
+    MASK = (1<<32)-1    # 32 1s in binary
+
     # Sigma funcs: NIST document, section 4.1.2, page 10.
     def Sig0(x):
-        return rotr(2,x)^ rotr(13,x)^rotr(22,x)
+        return rotr(2,x, MASK)^ rotr(13,x, MASK)^rotr(22,x,MASK)
 
     def Sig1(x):
-        return rotr(6,x)^rotr(11,x)^rotr(25,x)
+        return rotr(6,x, MASK)^rotr(11,x, MASK)^rotr(25,x, MASK)
 
     def sig0(x):
-        return rotr(7,x)^rotr(18,x)^shr(3,x)
+        return rotr(7,x, MASK)^rotr(18,x, MASK)^shr(3,x)
 
     def sig1(x):
-        return rotr(17,x)^rotr(19,x)^shr(10,x)
+        return rotr(17,x, MASK)^rotr(19,x, MASK)^shr(10,x)
     
     # Section 5.1.1, page 13.
     def get_k(l):
@@ -28,7 +30,7 @@ def grp256(initial_hash, M, output_length = 256, form='hex'):
         return (448-n)&511
     
     config = {
-            'MASK':(1<<32)-1,        
+            'MASK':MASK,        
             'bl':32,                               # Section 1, page 1.
             'mbl':512,                             # Section 1, page 1.
             't_lim':64,                            # Section 6.2.2, page 23.
