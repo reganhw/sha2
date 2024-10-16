@@ -10,22 +10,25 @@ def str_to_bin(M):
     return ''.join(format(x,'08b') for x in Mbytes)
 
 def get_hash(config, M, form="hex",):
+    '''
+    Input: Message string M of any length.
+    Output: The hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
+    '''
 
     bl = config['bl']
     mbl = config['mbl']
     t_lim = config['t_lim']
-    K = config['K']
-    initial_hash = config['initial_hash']
+
+    K = config['K_constants']
+    H = config['initial_hash'].copy() 
+
     s0 = config['s0']
     s1 = config['s1']
     S0 = config['S0']
     S1 = config['S1']
+
     get_k = config['get_k']
 
-    '''
-    Input: Message string M of any length.
-    Output: The sha256 hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
-    '''
     # --------------------------------------- Preprocessing ----------------------------------------
 
     def padding(M):
@@ -68,9 +71,6 @@ def get_hash(config, M, form="hex",):
         return word_blocks    
 
     # --------------------------------------- Hashing ----------------------------------------
-    M_padded = padding(M)                                  # pad M.
-    M_blocks = str_to_blocks(M_padded)                       # split into 1024 bit blocks.
-    H = initial_hash.copy()
 
     def message_schedule(s):
         '''
@@ -97,17 +97,22 @@ def get_hash(config, M, form="hex",):
             b=a
             a = (T1 + T2)&MASK
         return a,b,c,d,e,f,g,h
-                                                            
-    for block in M_blocks:                                   # for each message block...
-        W = message_schedule(block)                          # obtain message schedule.
-        working_variables = my_update_variables(W)           # obtain working variables.
-        for j in range (8):                                  
-            H[j] = (H[j]+ working_variables[j])&MASK         # update hash values (section 6.2.2-4.)
     
-    if(form=="bin"):
-        return ''.join(format(h, f'0{bl}b') for h in H) # convert final hash values into binary string.
+    def main():
+        M_padded = padding(M)                                    # pad M.
+        M_blocks = str_to_blocks(M_padded)                       # split into 1024 bit blocks.         
+        for block in M_blocks:                                   # for each message block...
+            W = message_schedule(block)                          # obtain message schedule.
+            working_variables = my_update_variables(W)           # obtain working variables.
+            for j in range (8):                                  
+                H[j] = (H[j]+ working_variables[j])&MASK         # update hash values (section 6.2.2-4.)
+        if(form=="bin"):
+            return ''.join(format(h, f'0{bl}b') for h in H) # convert final hash values into binary string.
     
-    return ''.join(format(h, '016x') for h in H) # convert final hash values into hex string.
+        return ''.join(format(h, '016x') for h in H) # convert final hash values into hex string.
+    
+    return main()
+
 
 def sha512(M):
 
@@ -122,7 +127,7 @@ def sha512(M):
             'bl':64, 
             'mbl':1024, 
             't_lim':80,
-            'K': K512,
+            'K_constants': K512,
             'initial_hash': initial_hash_512, 
             's0':sigma512.sig0, 
             's1':sigma512.sig1, 
