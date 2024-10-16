@@ -2,8 +2,6 @@ import constants
 from basic_funcs import *
 from get_hash import get_hash
 
-
-
 def sha512(M):
     MASK = (1<<64)-1
     def Sig0(x):

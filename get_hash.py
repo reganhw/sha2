@@ -6,9 +6,9 @@ def get_hash(config, M, form="hex",):
     Output: The hash for M. If form=="bin" then the output is binary. Otherwise it's hex.
     '''
     MASK = config['MASK']
-    bl = config['bl']
-    mbl = config['mbl']
-    t_lim = config['t_lim']
+    bl = config['bl']         # bit length: values are regarded as a bl-bit integer
+    mbl = config['mbl']       # message block length
+    t_lim = config['t_lim']   # upper limit for 't' in main hashing part
 
     K = config['K_constants']
     H = config['initial_hash'].copy() 
@@ -26,8 +26,8 @@ def get_hash(config, M, form="hex",):
         '''
         Takes in a string M, converts to a binary string of length l and appends:
         - One "1"
-        - k zeros such that 1+l+k := 896 mod 1024
-        - l in 64 bits
+        - k zeros, defined by get_k
+        - l encoded in binary
         '''
         Mb= str_to_bin(M)
         l = len(Mb)                        # l = message length
@@ -38,8 +38,8 @@ def get_hash(config, M, form="hex",):
 
     def str_to_blocks(s):
         '''
-        Input: String of length 512n or 1024n for some n.
-        Output: String array, M split into blocks of length bl.
+        Input: String of length (message block length)n for some n.
+        Output: String array, s split into blocks of length bl.
         '''
         if(len(s)&(mbl-1)!=0):
            raise ValueError("Input string must have length mbl*n for some n.")
@@ -50,23 +50,26 @@ def get_hash(config, M, form="hex",):
 
     def get_word_blocks(s):
         '''
-        Input: String M of length 512/1024.
-        Output: Integer array, M split into 16 blocks of 32/64 bits, each block then converted to an integer.
+        Input: String s which is a message block.
+        Output: Integer array. The message block is split into 16 blocks of bl bits.
+        Then, each block then converted to an integer.
         '''
         if(len(s)!=mbl):
             raise ValueError(f'Input string must have length {mbl}.')
+        
         word_blocks = []
         for i in range (16):
             block = s[bl*i:bl*(i+1)]
             word_blocks.append(int(block,2))
+            
         return word_blocks    
 
     # --------------------------------------- Hashing ----------------------------------------
 
     def message_schedule(s):
         '''
-        Input: String M of length 512/1024.
-        Output: List of 64/80 integers, message schedule as described in the NIST document
+        Input: String s which is a message block.
+        Output: List of integers, which is the message schedule as described in the NIST document.
         '''
         W = get_word_blocks(s).copy()
         for t in range(16,t_lim):
@@ -91,7 +94,7 @@ def get_hash(config, M, form="hex",):
     
     def main():
         M_padded = padding(M)                                    # pad M.
-        M_blocks = str_to_blocks(M_padded)                       # split into 1024 bit blocks.         
+        M_blocks = str_to_blocks(M_padded)                       # split into mbl-bit blocks.         
         for block in M_blocks:                                   # for each message block...
             W = message_schedule(block)                          # obtain message schedule.
             working_variables = my_update_variables(W)           # obtain working variables.
