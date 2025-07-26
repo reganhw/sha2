@@ -49,4 +49,27 @@ SHA2 알고리즘은 SHA256 계열(SHA224, SHA256)과 SHA512 계열(SHA384, SHA5
   - `sha224`,`sha256`은 `grp256`을 호출합니다.
   - `sha384`, `sha512`, `sha_512_224`, `sha_512_256`은 `grp512`를 호출합니다.
 - **constants.py:** 각종 상수를 담고 있는 파일입니다.
-- **tests:** Pytest를 이용한 테스트입니다.
+- **tests:** pytest를 이용한 테스트입니다.
+
+### 테스팅 방법
+(1) pytest를 다운받습니다.
+```
+# pip install -q pytest==8.3.3.
+```
+(2) sha2 디렉토리로 이동합니다.
+```
+# cd sha2
+```
+(3) 다음 문법을 활용합니다. <br>
+`basic_funcs` 기본 함수 테스팅:
+```
+# python -m pytest tests/test_basic_funcs.py
+```
+`sha256`, `sha512` 등 메인 함수 테스팅:
+```
+# python -m pytest tests/test_algorithms.py
+```
+전체 테스팅:
+```
+# python -m pytest tests/
+```

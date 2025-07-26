@@ -120,7 +120,7 @@ def sha2(config, M, output_length, form="hex"):
         
        
         if(form=="bin"):
-             # Convert final hash values into binary string, slice appropriately.
+            # Convert final hash values into binary string, slice appropriately.
             return ''.join(format(h, f'0{bl}b') for h in H)[:output_length] 
         
         # Convert final hash values into hex string, slice appropriately. 

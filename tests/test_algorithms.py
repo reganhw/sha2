@@ -1,3 +1,4 @@
+# Tests for sha224, sha256, sha384, sha512, sha_512_224, sha_512_256
 import hashlib
 from main import *
 
