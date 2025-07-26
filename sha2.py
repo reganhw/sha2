@@ -105,7 +105,7 @@ def sha2(config, M, output_length, form="hex"):
             a = (T1 + T2)&MASK
         return a,b,c,d,e,f,g,h
     
-    def main():
+    def hashes():
         '''
         Hashes M.
         References: Section 6.2.2, pages 22-23 and section 6.4.2, pages 24-26.
@@ -128,4 +128,4 @@ def sha2(config, M, output_length, form="hex"):
         return ''.join(format(h, f'0{bl//4}x') for h in H)[:output_length_hash]
         
     
-    return main()
+    return hashes()
