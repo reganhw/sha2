@@ -1,6 +1,5 @@
 from constants import *
-from basic_funcs import *
-from sha2 import sha2
+from sha2 import *
 
 def grp256(initial_hash, M, output_length = 256, form='hex'):
     '''
